@@ -1,9 +1,17 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import data from "./pages/data";
+import result from "./pages/result";
+import "./App.css";
 
 function App() {
   return (
-    <h1>CALCULADORA DE TINTA</h1>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={data} />
+        <Route path="/result" component={result} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 
