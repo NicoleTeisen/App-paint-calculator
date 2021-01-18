@@ -7,10 +7,11 @@ class Data extends Component {
       <div className="container">
         <h1 className="title">CALCULADORA DE TINTA</h1>
         <p className="explaining">
-        Com a calculadora de tintas você consegue estimar quanto vai precisar para a pintura de uma área. Você precisa ter em mãos as medidas do ambiente, a altura e largura das áreas que não receberão pintura (portas e janelas). Preencha todos os campos indicados e clique no botão calcular.
+          Com a calculadora de tinta você consegue estimar quanto vai precisar
+          para a pintura de uma área. Você precisa ter em mãos as medidas das quatro paredes e o número de portas e janelas por parede. Preencha os campos indicados e clique no
+          botão calcular.
         </p>
         <WallMeasure />
-        
       </div>
     );
   }
