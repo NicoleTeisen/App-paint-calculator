@@ -1,15 +1,13 @@
-import React, { Component } from 'react';
-import { Wall1, Wall2, Wall3, Wall4 } from '../components';
+import React, { Component } from "react";
+import WallMeasure from "../components/WallMeasure";
 
 class Data extends Component {
   render() {
     return (
       <div>
-          <h1 data-testid="settings-title">CALCULADORA DE TINTA</h1>             
-          <Wall1 />
-          <Wall2 />
-          <Wall3 />
-          <Wall4 />
+        <h1 data-testid="settings-title">CALCULADORA DE TINTA</h1>
+        <WallMeasure />
+        
       </div>
     );
   }
