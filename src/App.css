@@ -1,1 +1,74 @@
+body {  
+  box-sizing: border-box;
+  color: rgb(54,54,54);
+  font-size: 16px;
+  margin: 50px;
+}
+
+
+.container {
+  align-items: center;
+  border: 1px solid lightgray;
+  border-radius: 6px;  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  width: 50%;
+}
+
+.title {
+  background-image: url(./images/colorful.jpeg), url(./images/colorful1.jpeg);  
+  height: 120px;  
+  line-height: 80px;
+  margin: 0;
+  text-align: center;   
+  width: 100%;
+
+}
+
+.explaining {
+  font-size: 14px;  
+  margin: 10px 20px;
+  text-align: justify;
+}
+
+.wall-title {
+  margin: 10px 20px;
+}
+.wall { 
+  border: 1px solid lightgray;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;  
+  margin: 0 20px 20px 20px;
+  overflow: hidden;  
+  width: 255px;
+}
+
+.input-text {
+  margin: 6px 3px 0 3px;
+  width: 40px;
+}
+
+.select {
+  margin-left: 3px;
+  margin-top: 6px;
+}
+
+.buttons-wall {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+button {
+  background-color: whitesmoke;
+  border: 1px solid lightgray;
+  color: rgb(54,54,54);
+  margin: 0 5px;
+}
 

@@ -32,12 +32,19 @@ class WallMeasure extends Component {
   }
 
   updateArea() {
-    const { width, height } = this.state;
+    const { width, height, frameArea } = this.state;
     let area = width * height;
-    this.setState({
-      wallArea: area,
-      usefulArea: area,
-    });
+    frameArea === 0
+      ? this.setState({
+          wallArea: area,
+          usefulArea: area,
+        })
+      : this.setState(
+          {
+            wallArea: area,
+          },
+          this.compareAreas
+        );
   }
 
   updateDataWidth(key, value) {
@@ -46,8 +53,15 @@ class WallMeasure extends Component {
           {
             disableHeight: true,
             height: 0,
+            disableDoor: true,
+            disableWindows: true,
+            checkDoor: false,
+            checkWindows: false,
+            wallArea: 0,
           },
-          alert("A largura da parede deve estar entre 1m e 15m")
+          alert("A largura da parede deve estar entre 1m e 15m"),
+          this.changeValueSelectDoor(),
+          this.changeValueSelectWindows()
         )
       : this.setState(
           {
@@ -66,6 +80,7 @@ class WallMeasure extends Component {
             disableDoor: true,
             checkDoor: false,
           },
+          this.changeValueSelectDoor,
           alert(
             "A altura da parede deve ser de no mínimo 2,20m para que haja portas"
           )
@@ -210,8 +225,8 @@ class WallMeasure extends Component {
 
     return (
       <div>
-        <h3>Parede 1:</h3>
-        <form className="wall">
+        <h3 className="wall-title">Parede 1:</h3>
+        <fieldset className="wall">
           <label>
             Largura
             <input
@@ -291,8 +306,8 @@ class WallMeasure extends Component {
               <option value="4">4</option>
               <option value="5">5</option>
             </select>
-          </div>
-        </form>
+          </div>         
+        </fieldset>
       </div>
     );
   }
