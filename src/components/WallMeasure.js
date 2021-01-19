@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 
 class WallMeasure extends Component {
   constructor(props) {
@@ -7,13 +8,14 @@ class WallMeasure extends Component {
     this.updateDataWidth = this.updateDataWidth.bind(this);
     this.updateDataHeight = this.updateDataHeight.bind(this);
     this.updateArea = this.updateArea.bind(this);
-    this.checkChangeDoor = this.checkChangeDoor.bind(this);
-    this.changeValueSelectDoor = this.changeValueSelectDoor.bind(this);
+    this.checkChangeDoor = this.checkChangeDoor.bind(this);    
     this.checkChangeWindows = this.checkChangeWindows.bind(this);
     this.doorArea = this.doorArea.bind(this);
     this.windowsArea = this.windowsArea.bind(this);
     this.frameArea = this.frameArea.bind(this);
     this.compareAreas = this.compareAreas.bind(this);
+    this.saveWall = this.saveWall.bind(this);
+    this.editWall = this.editWall.bind(this);
 
     this.state = {
       width: 0,
@@ -23,11 +25,16 @@ class WallMeasure extends Component {
       disableHeight: true,
       disableDoor: true,
       checkDoor: false,
+      numberDoor: 0,
       doorArea: 0,
       disableWindows: true,
       checkWindows: false,
+      numberWindows: 0,
       windowsArea: 0,
       frameArea: 0,
+      disableFieldset: false,
+      disableSave: false,
+      disableEdit: true,
     };
   }
 
@@ -58,10 +65,11 @@ class WallMeasure extends Component {
             checkDoor: false,
             checkWindows: false,
             wallArea: 0,
+            numberDoor: 0,
+            numberWindows: 0
           },
           alert("A largura da parede deve estar entre 1m e 15m"),
-          this.changeValueSelectDoor(),
-          this.changeValueSelectWindows()
+          this.frameArea
         )
       : this.setState(
           {
@@ -79,11 +87,14 @@ class WallMeasure extends Component {
           {
             disableDoor: true,
             checkDoor: false,
+            doorArea: 0,
+            numberDoor: 0,
           },
-          this.changeValueSelectDoor,
           alert(
             "A altura da parede deve ser de no mínimo 2,20m para que haja portas"
-          )
+          ),
+          this.frameArea
+          
         )
       : this.setState(
           {
@@ -93,14 +104,7 @@ class WallMeasure extends Component {
           this.updateArea
         );
   }
-
-  changeValueSelectDoor() {
-    const door = document.getElementById("door-select");
-    door.value = 0;
-    console.log(door.value);
-    this.frameArea();
-  }
-
+  
   checkChangeDoor() {
     const { height, checkDoor } = this.state;
     height < 2.2
@@ -122,8 +126,9 @@ class WallMeasure extends Component {
                 disableDoor: true,
                 checkDoor: false,
                 doorArea: 0,
+                numberDoor: 0,
               },
-          this.changeValueSelectDoor
+          this.frameArea
         );
   }
 
@@ -133,16 +138,10 @@ class WallMeasure extends Component {
     this.setState(
       {
         [key]: totalArea,
+        numberDoor: value,
       },
       this.frameArea
     );
-  }
-
-  changeValueSelectWindows() {
-    const windows = document.getElementById("windows-select");
-    windows.value = 0;
-    console.log(windows.value);
-    this.frameArea();
   }
 
   checkChangeWindows() {
@@ -157,8 +156,9 @@ class WallMeasure extends Component {
             disableWindows: true,
             checkWindows: false,
             windowsArea: 0,
+            numberWindows: 0,
           },
-      this.changeValueSelectWindows
+      this.frameArea
     );
   }
 
@@ -168,6 +168,7 @@ class WallMeasure extends Component {
     this.setState(
       {
         [key]: totalArea,
+        numberWindows: value,
       },
       this.frameArea
     );
@@ -190,16 +191,14 @@ class WallMeasure extends Component {
     const { wallArea, frameArea } = this.state;
     const halfArea = wallArea / 2;
     console.log(wallArea, frameArea, halfArea);
-    if (frameArea > halfArea) {
-      const windows = document.getElementById("windows-select");
-      windows.value = 0;
-      const door = document.getElementById("door-select");
-      door.value = 0;
+    if (frameArea > halfArea) {      
       alert(
         "Verifique a quantidade de esquadrias, a sua área não pode ultrapassar 50% da área total da parede"
       );
       this.setState(
         {
+          numberDoor: 0,
+          numberWindows: 0,
           windowsArea: 0,
           doorArea: 0,
         },
@@ -213,6 +212,31 @@ class WallMeasure extends Component {
     }
   }
 
+  saveWall() {
+    const { usefulArea } = this.state;
+    if (usefulArea > 0) {
+      this.setState({
+        disableFieldset: true,
+        disableEdit: false,
+        disableSave: true,
+      });
+      const { onSubmit, id } = this.props; 
+      console.log(usefulArea);     
+      onSubmit(`area${id}`,usefulArea);
+    }
+  }
+
+  editWall() {
+    this.setState({
+      disableFieldset: false,
+      disableEdit: true,
+      disableSave: false,
+    });
+
+    const { edit, id } = this.props;
+      edit(`area${id}`);
+  }
+
   render() {
     const {
       disableHeight,
@@ -221,12 +245,16 @@ class WallMeasure extends Component {
       checkDoor,
       disableWindows,
       checkWindows,
+      disableFieldset,
+      disableEdit,
+      disableSave,  
+      numberDoor,
+      numberWindows,    
     } = this.state;
 
     return (
-      <div>
-        <h3 className="wall-title">Parede 1:</h3>
-        <fieldset className="wall">
+      <div>        
+        <fieldset className="wall" disabled={disableFieldset}>
           <label>
             Largura
             <input
@@ -245,6 +273,7 @@ class WallMeasure extends Component {
           <label>
             Altura
             <input
+              id="input-height"
               className="input-text"
               value={height}
               type="number"
@@ -270,6 +299,7 @@ class WallMeasure extends Component {
             <select
               id="door-select"
               className="select"
+              value={numberDoor}
               disabled={disableDoor}
               onChange={(e) => this.doorArea("doorArea", e.target.value)}
             >
@@ -296,6 +326,7 @@ class WallMeasure extends Component {
             <select
               id="windows-select"
               className="select"
+              value={numberWindows}
               disabled={disableWindows}
               onChange={(e) => this.windowsArea("windowsArea", e.target.value)}
             >
@@ -307,15 +338,26 @@ class WallMeasure extends Component {
               <option value="5">5</option>
             </select>
           </div>
-
-          <div className="buttons-wall">
-            <button>SALVAR</button>
-            <button>EDITAR</button>
-          </div>
         </fieldset>
+
+        <div className="buttons-wall">
+          <button onClick={this.saveWall} disabled={disableSave}>
+            SALVAR
+          </button>
+          <button onClick={this.editWall} disabled={disableEdit}>
+            EDITAR
+          </button>
+        </div>
+
       </div>
     );
   }
 }
 
 export default WallMeasure;
+
+WallMeasure.propTypes = {  
+  onSubmit: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
+};
