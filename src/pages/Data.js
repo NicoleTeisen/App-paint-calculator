@@ -23,19 +23,24 @@ class Data extends Component {
   goToResult() {
     const { totalArea } = this.state;
     const { history } = this.props;
-    if (totalArea > 0) history.push({ pathname: "/result" });
-
+    if (totalArea > 0)
+      history.push({ pathname: "/result", state: { paint: totalArea } });
   }
 
   SubmitTotalArea() {
     const { area1, area2, area3, area4 } = this.state;
-    const total = area1 + area2 + area3 + area4;
-    this.setState ({
-      totalArea: total
-    }, this.goToResult)    
+    if (area1 > 0 && area2 > 0 && area3 > 0 && area4) {
+      const total = area1 + area2 + area3 + area4;
+      this.setState(
+        {
+          totalArea: total,
+        },
+        this.goToResult
+      );
+    }
   }
 
-  addArea(key, area) {    
+  addArea(key, area) {
     this.setState({
       [key]: area,
     });
@@ -48,7 +53,7 @@ class Data extends Component {
   }
 
   render() {
-    const index = [1, 2, 3, 4]
+    const index = [1, 2, 3, 4];
     return (
       <div className="container">
         <h1 className="title">CALCULADORA DE TINTA</h1>
@@ -57,14 +62,18 @@ class Data extends Component {
           para a pintura de uma área. Você precisa ter em mãos as medidas das
           quatro paredes e o número de portas e janelas por parede. Preencha os
           campos indicados e clique no botão calcular.
-        </p>        
+        </p>
         <div className="container-walls">
-        {index.map((number) => (          
-          <div key={number}>
-            <h3 className="wall-title">Parede {number}: </h3>
-          <WallMeasure id={number} onSubmit={this.addArea} edit={this.clearArea} />
-          </div>
-        ))}
+          {index.map((number) => (
+            <div key={number}>
+              <h3 className="wall-title">Parede {number}: </h3>
+              <WallMeasure
+                id={number}
+                onSubmit={this.addArea}
+                edit={this.clearArea}
+              />
+            </div>
+          ))}
         </div>
         <button onClick={this.SubmitTotalArea}>CALCULAR</button>
       </div>
