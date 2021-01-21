@@ -1,59 +1,23 @@
 import React, { Component } from "react";
 import WallMeasure from "../components/WallMeasure";
+import GlobalContext from '../Providers/GlobalContext';
 import PropTypes from "prop-types";
 
 class Data extends Component {
   constructor(props) {
     super(props);
 
-    this.addArea = this.addArea.bind(this);
-    this.clearArea = this.addArea.bind(this);
-    this.SubmitTotalArea = this.SubmitTotalArea.bind(this);
-    this.goToResult = this.goToResult.bind(this);
-
-    this.state = {
-      area1: 0,
-      area2: 0,
-      area3: 0,
-      area4: 0,
-      totalArea: 0,
-    };
+    this.submitTotalArea = this.submitTotalArea.bind(this); 
   }
 
-  goToResult() {
-    const { totalArea } = this.state;
+  submitTotalArea() {
+    const { countWalls } = this.context;
     const { history } = this.props;
-    if (totalArea > 0)
-      history.push({ pathname: "/result", state: { paint: totalArea } });
-  }
-
-  SubmitTotalArea() {
-    const { area1, area2, area3, area4 } = this.state;
-    if (area1 > 0 && area2 > 0 && area3 > 0 && area4) {
-      const total = area1 + area2 + area3 + area4;
-      this.setState(
-        {
-          totalArea: total,
-        },
-        this.goToResult
-      );
-    }
-  }
-
-  addArea(key, area) {
-    this.setState({
-      [key]: area,
-    });
-  }
-
-  clearArea(key) {
-    this.setState({
-      [key]: 0,
-    });
+    if (countWalls === 4) history.push({ pathname: "/result" });
   }
 
   render() {
-    const index = [1, 2, 3, 4];
+    const index = [1, 2, 3, 4];    
     return (
       <div className="container">
         <h1 className="title">CALCULADORA DE TINTA</h1>
@@ -67,19 +31,17 @@ class Data extends Component {
           {index.map((number) => (
             <div key={number}>
               <h3 className="wall-title">Parede {number}: </h3>
-              <WallMeasure
-                id={number}
-                onSubmit={this.addArea}
-                edit={this.clearArea}
-              />
+              <WallMeasure />
             </div>
           ))}
         </div>
-        <button onClick={this.SubmitTotalArea}>CALCULAR</button>
+        <button onClick={this.submitTotalArea}>CALCULAR</button>
       </div>
     );
   }
 }
+
+Data.contextType = GlobalContext;
 
 export default Data;
 
