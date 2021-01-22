@@ -43,10 +43,8 @@ class WallsProvider extends Component {
   }
 
   frameArea() {
-    const { doorArea, windowsArea } = this.state;
-    console.log(windowsArea, doorArea);
-    const sum = doorArea + windowsArea;
-    console.log(sum);
+    const { doorArea, windowsArea } = this.state;    
+    const sum = doorArea + windowsArea;    
     this.setState(
       {
         frameArea: sum,
@@ -57,8 +55,7 @@ class WallsProvider extends Component {
 
   compareAreas() {
     const { wallArea, frameArea } = this.state;
-    const halfArea = wallArea / 2;
-    console.log(wallArea, frameArea, halfArea);
+    const halfArea = wallArea / 2;    
     if (frameArea > halfArea) {
       this.setState({
         alertFrames:
