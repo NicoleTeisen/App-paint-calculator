@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import WallsContext from "./WallsContext";
-import GlobalContext from './GlobalContext';
+import GlobalContext from "./GlobalContext";
 
 class WallsProvider extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class WallsProvider extends Component {
     this.compareAreas = this.compareAreas.bind(this);
     this.saveWall = this.saveWall.bind(this);
     this.editWall = this.editWall.bind(this);
-    
+
     this.state = {
       width: 0,
       height: 0,
@@ -36,6 +36,9 @@ class WallsProvider extends Component {
       disableFieldset: false,
       disableSave: false,
       disableEdit: true,
+      alertWidth: "",
+      alertHeight: "",
+      alertFrames: "",
     };
   }
 
@@ -57,22 +60,15 @@ class WallsProvider extends Component {
     const halfArea = wallArea / 2;
     console.log(wallArea, frameArea, halfArea);
     if (frameArea > halfArea) {
-      alert(
-        "Verifique a quantidade de esquadrias, a sua área não pode ultrapassar 50% da área total da parede"
-      );
-      this.setState(
-        {
-          numberDoor: 0,
-          numberWindows: 0,
-          windowsArea: 0,
-          doorArea: 0,
-        },
-        this.frameArea
-      );
+      this.setState({
+        alertFrames:
+          "*A área das esquadrias não pode ultrapassar 50% da área da parede",
+      });
     } else {
       const totalArea = wallArea - frameArea;
       this.setState({
         usefulArea: totalArea,
+        alertFrames: "",
       });
     }
   }
@@ -106,14 +102,15 @@ class WallsProvider extends Component {
             wallArea: 0,
             numberDoor: 0,
             numberWindows: 0,
+            alertWidth: "*A largura da parede deve estar entre 1m e 15m",
           },
-          alert("A largura da parede deve estar entre 1m e 15m"),
           this.frameArea
         )
       : this.setState(
           {
             width: value,
             disableHeight: false,
+            alertWidth: "",
           },
           this.updateArea
         );
@@ -128,16 +125,15 @@ class WallsProvider extends Component {
             checkDoor: false,
             doorArea: 0,
             numberDoor: 0,
-          },
-          alert(
-            "A altura da parede deve ser de no mínimo 2,20m para que haja portas"
-          ),
+            alertHeight: "*A altura da parede deve ser de no mínimo 2,20m"
+          },          
           this.frameArea
         )
       : this.setState(
           {
             height: value,
             disableHeight: false,
+            alertHeight: "",
           },
           this.updateArea
         );
@@ -149,22 +145,22 @@ class WallsProvider extends Component {
       ? this.setState(
           {
             checkDoor: false,
-          },
-          alert(
-            "A altura da parede deve ser de no mínimo 2,20m para habilitar este campo"
-          )
+            alertHeight: "*A altura da parede deve ser de no mínimo 2,20m para habilitar este campo"
+          }         
         )
       : this.setState(
           checkDoor === false
             ? {
                 disableDoor: false,
                 checkDoor: true,
+                alertHeight: "",
               }
             : {
                 disableDoor: true,
                 checkDoor: false,
                 doorArea: 0,
                 numberDoor: 0,
+                alertHeight: "",
               },
           this.frameArea
         );
@@ -212,31 +208,32 @@ class WallsProvider extends Component {
     );
   }
 
-  saveWall() {    
-    const { usefulArea } = this.state;
+  saveWall() {
+    const { usefulArea, alertFrames } = this.state;
     const { sumTotalArea } = this.context;
-    if (usefulArea > 0) {
-      this.setState({
-        disableFieldset: true,
-        disableEdit: false,
-        disableSave: true,
-      }, this.teste);
+    if (usefulArea > 0 && alertFrames === "") {
+      this.setState(
+        {
+          disableFieldset: true,
+          disableEdit: false,
+          disableSave: true,
+        },
+        this.teste
+      );
       sumTotalArea(usefulArea);
-      
     }
   }
 
-  editWall() {    
+  editWall() {
     const { usefulArea } = this.state;
-    const { decreaseTotalArea } = this.context;    
+    const { decreaseTotalArea } = this.context;
     this.setState({
-        disableFieldset: false,
-        disableEdit: true,
-        disableSave: false,
-      });
-      decreaseTotalArea(usefulArea);
-  }                
-  
+      disableFieldset: false,
+      disableEdit: true,
+      disableSave: false,
+    });
+    decreaseTotalArea(usefulArea);
+  }
 
   render() {
     const context = {
@@ -249,8 +246,8 @@ class WallsProvider extends Component {
       calculatingFramesArea: this.calculatingFramesArea,
       frameArea: this.frameArea,
       compareAreas: this.compareAreas,
-      saveWall: this.saveWall,  
-      editWall: this.editWall, 
+      saveWall: this.saveWall,
+      editWall: this.editWall,
     };
     const { children } = this.props;
     return (
@@ -265,4 +262,4 @@ export default WallsProvider;
 
 WallsProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  };
+};

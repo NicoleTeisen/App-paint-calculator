@@ -8,6 +8,7 @@ export default function SelectWindows() {
     numberWindows,
     disableWindows,
     calculatingFramesArea,
+    alertFrames
   } = useContext(WallsContext);
   const index = [0, 1, 2, 3, 4, 5];
   return(    
@@ -33,6 +34,7 @@ export default function SelectWindows() {
           <option key={number} value={number}>{number}</option>
         ))}
       </select>
+      <p className="alert">{alertFrames}</p>
     </div>
   )
 }
