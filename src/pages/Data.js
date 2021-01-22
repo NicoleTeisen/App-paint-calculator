@@ -10,10 +10,13 @@ class Data extends Component {
     this.submitTotalArea = this.submitTotalArea.bind(this); 
   }
 
-  submitTotalArea() {
-    const { countWalls } = this.context;
+  async submitTotalArea() {
+    const { countWalls, totalPaintCans } = this.context;
     const { history } = this.props;
-    if (countWalls === 4) history.push({ pathname: "/result" });
+    if (countWalls === 4){
+      await totalPaintCans();
+      history.push({ pathname: "/result" });      
+    } 
   }
 
   render() {
