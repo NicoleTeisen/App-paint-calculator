@@ -14,7 +14,7 @@ export default function Form() {
         <InputWidth />
         <InputHeight />
         <SelectDoor />
-        <SelectWindows />        
+        <SelectWindows />
       </fieldset>
       <Buttons />
     </div>

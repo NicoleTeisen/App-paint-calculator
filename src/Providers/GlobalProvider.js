@@ -24,7 +24,7 @@ class GlobalProvider extends Component {
 
   sumTotalArea(usefulArea) {
     const { totalArea, countWalls } = this.state;
-    const roundUsefulArea = parseFloat((usefulArea).toFixed(2));
+    const roundUsefulArea = parseFloat(usefulArea.toFixed(2));
     console.log(roundUsefulArea);
     this.setState({
       totalArea: totalArea + roundUsefulArea,
@@ -34,7 +34,7 @@ class GlobalProvider extends Component {
 
   decreaseTotalArea(usefulArea) {
     const { totalArea, countWalls } = this.state;
-    const roundUsefulArea = parseFloat((usefulArea).toFixed(2));
+    const roundUsefulArea = parseFloat(usefulArea.toFixed(2));
     console.log(roundUsefulArea);
     this.setState({
       totalArea: totalArea - roundUsefulArea,

@@ -125,8 +125,8 @@ class WallsProvider extends Component {
             checkDoor: false,
             doorArea: 0,
             numberDoor: 0,
-            alertHeight: "*A altura da parede deve ser de no mínimo 2,20m"
-          },          
+            alertHeight: "*A altura da parede deve ser de no mínimo 2,20m",
+          },
           this.frameArea
         )
       : this.setState(
@@ -142,12 +142,11 @@ class WallsProvider extends Component {
   checkChangeDoor() {
     const { height, checkDoor } = this.state;
     height < 2.2
-      ? this.setState(
-          {
-            checkDoor: false,
-            alertHeight: "*A altura da parede deve ser de no mínimo 2,20m para habilitar este campo"
-          }         
-        )
+      ? this.setState({
+          checkDoor: false,
+          alertHeight:
+            "*A altura da parede deve ser de no mínimo 2,20m para habilitar este campo",
+        })
       : this.setState(
           checkDoor === false
             ? {

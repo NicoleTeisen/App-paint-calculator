@@ -1,26 +1,26 @@
 import React, { Component } from "react";
 import WallMeasure from "../components/WallMeasure";
-import GlobalContext from '../Providers/GlobalContext';
+import GlobalContext from "../Providers/GlobalContext";
 import PropTypes from "prop-types";
 
 class Data extends Component {
   constructor(props) {
     super(props);
 
-    this.submitTotalArea = this.submitTotalArea.bind(this); 
+    this.submitTotalArea = this.submitTotalArea.bind(this);
   }
 
   async submitTotalArea() {
     const { countWalls, totalPaintCans } = this.context;
     const { history } = this.props;
-    if (countWalls === 4){
+    if (countWalls === 4) {
       await totalPaintCans();
-      history.push({ pathname: "/result" });      
-    } 
+      history.push({ pathname: "/result" });
+    }
   }
 
   render() {
-    const index = [1, 2, 3, 4];    
+    const index = [1, 2, 3, 4];
     return (
       <div className="container">
         <h1 className="title">CALCULADORA DE TINTA</h1>

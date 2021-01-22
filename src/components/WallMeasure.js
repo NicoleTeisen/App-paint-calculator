@@ -4,10 +4,10 @@ import WallsProvider from "../Providers/WallsProvider";
 
 export default function WallMeasure() {
   return (
-    <div>        
+    <div>
       <WallsProvider>
-        <Form />        
-      </WallsProvider>     
+        <Form />
+      </WallsProvider>
     </div>
   );
 }

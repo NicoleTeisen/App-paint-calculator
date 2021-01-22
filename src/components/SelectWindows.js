@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import WallsContext from '../Providers/WallsContext';
+import WallsContext from "../Providers/WallsContext";
 
 export default function SelectWindows() {
   const {
@@ -8,10 +8,10 @@ export default function SelectWindows() {
     numberWindows,
     disableWindows,
     calculatingFramesArea,
-    alertFrames
+    alertFrames,
   } = useContext(WallsContext);
   const index = [0, 1, 2, 3, 4, 5];
-  return(    
+  return (
     <div>
       <label>
         <input
@@ -22,7 +22,7 @@ export default function SelectWindows() {
         />
         Essa parede possui janela(s)
       </label>
-  
+
       <select
         id="windows-select"
         className="select"
@@ -31,10 +31,12 @@ export default function SelectWindows() {
         onChange={(e) => calculatingFramesArea("windowsArea", e.target.value)}
       >
         {index.map((number) => (
-          <option key={number} value={number}>{number}</option>
+          <option key={number} value={number}>
+            {number}
+          </option>
         ))}
       </select>
       <p className="alert">{alertFrames}</p>
     </div>
-  )
+  );
 }
