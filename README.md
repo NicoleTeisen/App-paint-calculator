@@ -44,6 +44,6 @@ Este repositório já contém uma aplicação React criada e configurada. Após 
     `npm start`
 
 * Para executar os testes
-    * `npm test`
+    `npm test`
 
     
