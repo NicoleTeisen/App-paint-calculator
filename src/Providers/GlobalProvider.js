@@ -24,18 +24,20 @@ class GlobalProvider extends Component {
 
   sumTotalArea(usefulArea) {
     const { totalArea, countWalls } = this.state;
-    console.log(usefulArea);
+    const roundUsefulArea = parseFloat((usefulArea).toFixed(2));
+    console.log(roundUsefulArea);
     this.setState({
-      totalArea: totalArea + usefulArea,
+      totalArea: totalArea + roundUsefulArea,
       countWalls: countWalls + 1,
     });
   }
 
   decreaseTotalArea(usefulArea) {
     const { totalArea, countWalls } = this.state;
-    console.log(usefulArea);
+    const roundUsefulArea = parseFloat((usefulArea).toFixed(2));
+    console.log(roundUsefulArea);
     this.setState({
-      totalArea: totalArea - usefulArea,
+      totalArea: totalArea - roundUsefulArea,
       countWalls: countWalls - 1,
     });
   }
@@ -65,16 +67,16 @@ class GlobalProvider extends Component {
 
     while (litersPaint > 0) {
       if (litersPaint >= canPaint180.liters) {
-        litersPaint = parseFloat((litersPaint - canPaint180.liters).toFixed(1));
+        litersPaint = parseFloat((litersPaint - canPaint180.liters).toFixed(2));
         can180 = can180 + 1;
       } else if (litersPaint >= canPaint36.liters) {
-        litersPaint = parseFloat((litersPaint - canPaint36.liters).toFixed(1));
+        litersPaint = parseFloat((litersPaint - canPaint36.liters).toFixed(2));
         can36 = can36 + 1;
-      } else if (litersPaint >= canPaint25.liters) {
-        litersPaint = parseFloat((litersPaint - canPaint25.liters).toFixed(1));
+      } else if (litersPaint >= canPaint25.liters || litersPaint === 2.5) {
+        litersPaint = parseFloat((litersPaint - canPaint25.liters).toFixed(2));
         can25 = can25 + 1;
       } else {
-        litersPaint = parseFloat((litersPaint - canPaint05.liters).toFixed(1));
+        litersPaint = parseFloat((litersPaint - canPaint05.liters).toFixed(2));
         can05 = can05 + 1;
       }
     }
